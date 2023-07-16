@@ -117,16 +117,22 @@ class Space():
     def get_cost(self, hospitals):
         """Calculates sum of distances from houses to nearest hospital."""
         cost = 0
+        # for house in self.houses:
+        #     cost += min(
+        #         abs(house[0] - hospital[0]) + abs(house[1] - hospital[1])
+        #         for hospital in hospitals
+        #     )
         for house in self.houses:
-            cost += min(
-                abs(house[0] - hospital[0]) + abs(house[1] - hospital[1])
-                for hospital in hospitals
-            )
-        for hospital in hospitals:
-            for i in range(2):
-                if hospital[i] > 3 or hospital[i] < 7:
-                    cost += 15
-
+            costs = []
+            for hospital in hospitals:
+                distance = abs(house[0] - hospital[0]) + abs(house[1] - hospital[1])
+                costs.append(distance)
+            cost += min(costs)
+        land_cost = 0
+        for i in range(2):
+            if hospital[i] > 3 or hospital[i] < 7:
+                land_cost += 20
+        cost += land_cost
         return cost
 
     def get_neighbors(self, row, col):
